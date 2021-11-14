@@ -73,7 +73,7 @@ internal class WireMockKtTest {
         }
 
         @Test
-        internal fun registerHeadersPettern() {
+        internal fun registerHeadersPattern() {
             val actual = wireMock.register {
                 method = RequestMethod.GET
                 headers {
@@ -86,6 +86,11 @@ internal class WireMockKtTest {
             assertThat(actual.headers)
                 .extractingByKeys("Content-Type", "x-test")
                 .containsExactly(MultiValuePattern.of(containing("json")), MultiValuePattern.of(equalToIgnoreCase("TRUE")))
+        }
+
+        @Test
+        internal fun registerResponseBody() {
+
         }
     }
 }
