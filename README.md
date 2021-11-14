@@ -13,5 +13,13 @@ wireMock.register {
         contentType("application/json")
         set("x-test", "true")
     }
+    
+    response {
+        headers {
+            contentType("application/json")
+            set("x-test", "test")
+            set("x-test", "test2")
+        }
+    }
 }
 ```

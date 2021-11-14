@@ -5,6 +5,7 @@ import com.github.tomakehurst.wiremock.client.WireMock.*
 import com.github.tomakehurst.wiremock.http.RequestMethod
 import com.github.tomakehurst.wiremock.matching.MultiValuePattern
 import org.assertj.core.api.Assertions.*
+import org.assertj.core.api.SoftAssertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -89,8 +90,49 @@ internal class WireMockKtTest {
         }
 
         @Test
-        internal fun registerResponseBody() {
+        internal fun registerResponseStatus() {
+            val actual = wireMock.register {
+                method = RequestMethod.GET
+                headers {
+                    url = "dummy"
+                    contentType(containing("json"))
+                    set("x-test", equalToIgnoreCase("TRUE"))
+                }
 
+                response {
+                    status = 404
+                }
+            }.response
+
+            assertThat(actual.status)
+                .isEqualTo(404)
+        }
+
+        @Test
+        internal fun registerResponseHeader() {
+            val actual = wireMock.register {
+                method = RequestMethod.GET
+                headers {
+                    url = "dummy"
+                    contentType(containing("json"))
+                    set("x-test", equalToIgnoreCase("TRUE"))
+                }
+
+                response {
+                    headers {
+                        contentType("application/json")
+                        set("x-test", "test")
+                        set("x-test", "test2")
+                    }
+                }
+            }.response
+
+            SoftAssertions().apply {
+                assertThat(actual.headers.getHeader("Content-Type").firstValue())
+                    .isEqualTo("application/json")
+                assertThat(actual.headers.getHeader("x-test").values())
+                    .contains("test", "test2")
+            }.assertAll()
         }
     }
 }

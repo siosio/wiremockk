@@ -1,6 +1,7 @@
 package com.github.siosio.wiremockk
 
 import com.github.tomakehurst.wiremock.client.MappingBuilder
+import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder
 import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.client.WireMock.*
 import com.github.tomakehurst.wiremock.http.RequestMethod
@@ -15,9 +16,14 @@ class MappingBuilderDsl {
     var method: RequestMethod? = null
     var url: String? = null
     private val headers = HeadersDsl()
+    private val response = ResponseDsl()
 
     fun headers(init: HeadersDsl.() -> Unit) {
         headers.apply(init)
+    }
+
+    fun response(init: ResponseDsl.() -> Unit) {
+        response.apply(init)
     }
 
     internal fun build(): MappingBuilder {
@@ -32,6 +38,7 @@ class MappingBuilderDsl {
             headers.headersPettern.forEach { (name, value) ->
                 withHeader(name, value)
             }
+            this.willReturn(response.build())
         }
     }
 }
@@ -54,5 +61,25 @@ class HeadersDsl {
 
     fun set(name: String, value: StringValuePattern) {
         headersPettern.add(name to value)
+    }
+}
+
+class ResponseDsl {
+    var status: Int = 200
+    val headers = HeadersDsl()
+
+    fun headers(init: HeadersDsl.() -> Unit) {
+        headers.apply(init)
+    }
+
+    fun build(): ResponseDefinitionBuilder {
+        return status(status)
+            .apply {
+                headers.headers
+                    .groupBy({ it.first }, { it.second })
+                    .forEach { (name, value) ->
+                        withHeader(name, *value.toTypedArray())
+                    }
+            }
     }
 }
