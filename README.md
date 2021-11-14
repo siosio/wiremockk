@@ -1,6 +1,8 @@
 # wiremockk
 Kotlin DSL library for [WireMock](https://github.com/wiremock/wiremock)
 
+![build](https://github.com/siosio/wiremockk/actions/workflows/build.yml/badge.svg)
+
 ## register example
 ### get
 ```kotlin
