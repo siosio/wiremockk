@@ -33,7 +33,26 @@ internal class RegisterTest {
     }
 
     @Test
-    internal fun getTest() {
+    internal fun urlOnly() {
+        wireMock.register {
+            request {
+                method = RequestMethod.GET
+                url = "/test"
+            }
+            response {
+                status = 200
+            }
+        }
+
+        val response = httpGet {
+            url("http://localhost:${container.getMappedPort(8080)}/test")
+        }
+        assertThat(response.code())
+            .isEqualTo(200)
+    }
+
+    @Test
+    internal fun withQueryParam() {
         wireMock.register {
             request {
                 method = RequestMethod.GET
