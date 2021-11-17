@@ -6,6 +6,7 @@ import io.github.rybalkinsd.kohttp.dsl.httpGet
 import io.github.rybalkinsd.kohttp.ext.httpGet
 import io.github.rybalkinsd.kohttp.ext.url
 import org.assertj.core.api.Assertions.*
+import org.assertj.core.api.SoftAssertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.testcontainers.containers.GenericContainer
@@ -41,14 +42,24 @@ internal class RegisterTest {
             }
             response {
                 status = 200
+
+                headers {
+                    header("x-test", "true")
+                }
             }
         }
 
         val response = httpGet {
             url("http://localhost:${container.getMappedPort(8080)}/test")
         }
-        assertThat(response.code())
-            .isEqualTo(200)
+
+        SoftAssertions().apply {
+            assertThat(response.code())
+                .isEqualTo(200)
+
+            assertThat(response.header("x-test"))
+                .isEqualTo("true")
+        }.assertAll()
     }
 
     @Test

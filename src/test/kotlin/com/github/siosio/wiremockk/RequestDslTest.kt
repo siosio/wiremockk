@@ -131,6 +131,32 @@ internal class RequestDslTest {
                     MultiValuePattern.of(WireMock.matching(".+/json")),
                 )
         }
+
+        @Test
+        internal fun registerHeader() {
+            sut.headers {
+                header("name", "value")
+            }
+            val actual = sut.build()
+            assertThat(actual.headers)
+                .extractingByKeys("name")
+                .containsExactly(MultiValuePattern.of(WireMock.equalTo("value")))
+        }
+
+        @Test
+        internal fun registerHeaderPattern() {
+            sut.headers {
+                header("name", WireMock.equalTo("value"))
+                header("name2", WireMock.containing("v"))
+            }
+            val actual = sut.build()
+            assertThat(actual.headers)
+                .extractingByKeys("name", "name2")
+                .containsExactly(
+                    MultiValuePattern.of(WireMock.equalTo("value")),
+                    MultiValuePattern.of(WireMock.containing("v")),
+                )
+        }
     }
 
     @Nested

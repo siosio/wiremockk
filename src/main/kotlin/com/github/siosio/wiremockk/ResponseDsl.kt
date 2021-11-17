@@ -28,13 +28,13 @@ class ResponseDsl {
 }
 
 class ResponseHeaderDsl {
-    val headers = mutableListOf<Pair<String, Array<String>>>()
+    private val headers = mutableListOf<Pair<String, Array<String>>>()
 
     fun contentType(value: String) {
         headers.add("Content-Type" to arrayOf(value))
     }
 
-    fun set(name: String, vararg values: String) {
+    fun header(name: String, vararg values: String) {
         headers.add(name to arrayOf(*values))
     }
 
