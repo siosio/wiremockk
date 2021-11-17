@@ -4,7 +4,7 @@ Kotlin DSL library for [WireMock](https://github.com/wiremock/wiremock)
 ![build](https://github.com/siosio/wiremockk/actions/workflows/build.yml/badge.svg)
 
 ## register example
-### match url pattern
+### simple get register
 ```kotlin
 import com.github.siosio.wiremockk.register
 
@@ -15,6 +15,41 @@ wireMock.register {
     }
     response {
         status = 200
+        headers {
+            contentType("application/json")
+            header("x-test", "true")
+        }
+        body {
+            resourcePath = "data/test.json"
+        }
+    }
+}
+```
+
+### simple post register
+```kotlin
+import com.github.siosio.wiremockk.register
+
+wireMock.register {
+    request {
+        method = RequestMethod.POST
+        url = "/users"
+        body {
+            json(
+                """
+                {
+                  "user": {
+                    "name": "siosio"
+                  }
+                }
+            """.trimIndent(), false, true)
+        }
+    }
+    response {
+        status = 201
+        headers {
+            header("location", "users/1")
+        }
     }
 }
 ```

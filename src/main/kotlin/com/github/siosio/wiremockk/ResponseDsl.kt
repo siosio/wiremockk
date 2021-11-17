@@ -3,12 +3,11 @@ package com.github.siosio.wiremockk
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder
 import com.github.tomakehurst.wiremock.client.WireMock.*
 import com.github.tomakehurst.wiremock.http.ResponseDefinition
-import java.lang.Thread.*
 
 class ResponseDsl {
     var status: Int = 200
-    val headers = ResponseHeaderDsl()
-    val body = ResponseBodyDsl()
+    private val headers = ResponseHeaderDsl()
+    private val body = ResponseBodyDsl()
 
     fun headers(init: ResponseHeaderDsl.() -> Unit) {
         headers.apply(init)
@@ -18,7 +17,7 @@ class ResponseDsl {
         body.apply(init)
     }
 
-    fun build(): ResponseDefinition {
+    internal fun build(): ResponseDefinition {
         return status(status)
             .apply {
                 headers.build(this)
@@ -38,7 +37,7 @@ class ResponseHeaderDsl {
         headers.add(name to arrayOf(*values))
     }
 
-    fun build(builder: ResponseDefinitionBuilder) {
+    internal fun build(builder: ResponseDefinitionBuilder) {
         headers
             .forEach { (name, values) ->
                 builder.withHeader(name, *values)
@@ -48,19 +47,15 @@ class ResponseHeaderDsl {
 
 class ResponseBodyDsl {
     var resourcePath: String? = null
-    var filePath: String? = null
     var bodyString: String? = null
 
-    fun build(builder: ResponseDefinitionBuilder) {
+    internal fun build(builder: ResponseDefinitionBuilder) {
         when {
             bodyString != null -> {
                 builder.withBody(bodyString)
             }
             resourcePath != null -> {
-                val bytes = currentThread().contextClassLoader
-                    .getResourceAsStream(resourcePath)
-                    .readAllBytes()
-                builder.withBody(bytes)
+                builder.withBody(readBinaryFromResourcePath(checkNotNull(resourcePath)))
             }
         }
     }

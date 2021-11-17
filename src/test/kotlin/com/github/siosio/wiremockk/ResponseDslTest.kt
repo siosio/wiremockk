@@ -1,5 +1,6 @@
 package com.github.siosio.wiremockk
 
+import net.javacrumbs.jsonunit.assertj.assertThatJson
 import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -61,6 +62,37 @@ internal class ResponseDslTest {
             val actual = sut.build()
             assertThat(actual.headers.getHeader("name").values())
                 .contains("value", "value2")
+        }
+    }
+
+    @Nested
+    inner class Body {
+        @Test
+        internal fun bodyFromText() {
+            sut.body {
+                // language=JSON
+                bodyString = """
+                    {
+                      "key": "value"
+                    }
+                """.trimIndent()
+            }
+
+            val actual = sut.build()
+
+            assertThatJson(actual.body)
+                .isEqualTo("""{"key":"value"}""")
+        }
+
+        @Test
+        internal fun bodyFromResourceFile() {
+            sut.body {
+                resourcePath = "data/test.json"
+            }
+
+            val actual = sut.build()
+            assertThat(actual.byteBody.toString(Charsets.UTF_8))
+                .isEqualTo("""{"test": "value"}""")
         }
     }
 }

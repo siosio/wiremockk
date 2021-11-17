@@ -1,6 +1,5 @@
 package com.github.siosio.wiremockk
 
-import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.client.WireMock.*
 import com.github.tomakehurst.wiremock.http.RequestMethod
 import com.github.tomakehurst.wiremock.matching.AnythingPattern
@@ -19,7 +18,7 @@ class RequestDsl {
     var url: String
         get() = this.urlPattern.pattern.value
         set(value) {
-            urlPattern = WireMock.urlEqualTo(value)
+            urlPattern = urlEqualTo(value)
         }
 
     fun url(url: String, init: QueryParamDsl.() -> Unit) {
@@ -37,12 +36,12 @@ class RequestDsl {
 
     internal fun build(): RequestPattern {
         return when (method) {
-            RequestMethod.ANY -> WireMock.anyRequestedFor(urlPattern)
-            RequestMethod.GET -> WireMock.getRequestedFor(urlPattern)
-            RequestMethod.POST -> WireMock.postRequestedFor(urlPattern)
-            RequestMethod.PUT -> WireMock.putRequestedFor(urlPattern)
-            RequestMethod.DELETE -> WireMock.deleteRequestedFor(urlPattern)
-            RequestMethod.PATCH -> WireMock.patchRequestedFor(urlPattern)
+            RequestMethod.ANY -> anyRequestedFor(urlPattern)
+            RequestMethod.GET -> getRequestedFor(urlPattern)
+            RequestMethod.POST -> postRequestedFor(urlPattern)
+            RequestMethod.PUT -> putRequestedFor(urlPattern)
+            RequestMethod.DELETE -> deleteRequestedFor(urlPattern)
+            RequestMethod.PATCH -> patchRequestedFor(urlPattern)
             else -> throw IllegalStateException("unsupported method!")
         }.apply {
             queryParam.build(this)
@@ -64,7 +63,7 @@ class QueryParamDsl {
         this.queryParams.add(name to valuePattern)
     }
 
-    fun build(requestPatternBuilder: RequestPatternBuilder) {
+    internal fun build(requestPatternBuilder: RequestPatternBuilder) {
         queryParams.forEach { (name, value) ->
             requestPatternBuilder.withQueryParam(name, value)
         }
@@ -91,7 +90,7 @@ class RequestHeadersDsl {
         headers.add(name to value)
     }
 
-    fun build(requestPatternBuilder: RequestPatternBuilder) {
+    internal fun build(requestPatternBuilder: RequestPatternBuilder) {
         headers.forEach { (name, value) ->
             requestPatternBuilder.withHeader(name, value)
         }
@@ -117,7 +116,7 @@ class RequestBodyDsl {
         bodyPatten = equalToJson(readTextFileFromResourcePath(jsonResourcePath), ignoreArrayOrder, ignoreExtraElements)
     }
 
-    fun build(requestPatternBuilder: RequestPatternBuilder) {
+    internal fun build(requestPatternBuilder: RequestPatternBuilder) {
         requestPatternBuilder.withRequestBody(bodyPatten)
     }
 }
