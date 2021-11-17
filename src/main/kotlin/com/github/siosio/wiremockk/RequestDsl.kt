@@ -13,6 +13,7 @@ class RequestDsl {
     var urlPattern: UrlPattern = UrlPattern.ANY
     private val queryParam = QueryParamDsl()
     private val headers = RequestHeadersDsl()
+    private val cookies = RequestCookieDsl()
     private val body = RequestBodyDsl()
 
     var url: String
@@ -28,6 +29,10 @@ class RequestDsl {
 
     fun headers(init: RequestHeadersDsl.() -> Unit) {
         headers.apply(init)
+    }
+
+    fun cookies(init: RequestCookieDsl.() -> Unit) {
+        cookies.apply(init)
     }
 
     fun body(init: RequestBodyDsl.() -> Unit) {
@@ -46,6 +51,7 @@ class RequestDsl {
         }.apply {
             queryParam.build(this)
             headers.build(this)
+            cookies.build(this)
             body.build(this)
         }.build()
     }
@@ -93,6 +99,24 @@ class RequestHeadersDsl {
     internal fun build(requestPatternBuilder: RequestPatternBuilder) {
         headers.forEach { (name, value) ->
             requestPatternBuilder.withHeader(name, value)
+        }
+    }
+}
+
+class RequestCookieDsl {
+    private val cookies = mutableListOf<Pair<String, StringValuePattern>>()
+
+    fun cookie(name: String, value: String) {
+        cookies.add(name to equalTo(value))
+    }
+
+    fun cookie(name: String, value: StringValuePattern) {
+        cookies.add(name to value)
+    }
+
+    internal fun build(requestPatternBuilder: RequestPatternBuilder) {
+        cookies.forEach { (name, value) ->
+            requestPatternBuilder.withCookie(name, value)
         }
     }
 }

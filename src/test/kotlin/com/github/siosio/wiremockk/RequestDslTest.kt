@@ -160,6 +160,29 @@ internal class RequestDslTest {
     }
 
     @Nested
+    inner class Cookie {
+        @Test
+        internal fun cookieString() {
+            sut.cookies {
+                cookie("name", "value")
+            }
+            val actual = sut.build()
+            assertThat(actual.cookies["name"])
+                .isEqualTo(WireMock.equalTo("value"))
+        }
+
+        @Test
+        internal fun cookiePattern() {
+            sut.cookies {
+                cookie("name", WireMock.containing("value"))
+            }
+            val actual = sut.build()
+            assertThat(actual.cookies["name"])
+                .isEqualTo(WireMock.containing("value"))
+        }
+    }
+
+    @Nested
     inner class Body {
         @Test
         internal fun registerJson() {
