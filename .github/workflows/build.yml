@@ -10,4 +10,4 @@ jobs:
           distribution: 'adopt'
           java-version: '11'
           cache: 'gradle'
-      - run: ./gradlew build --no-daemon
+      - run: ./gradlew build -x signArchives --no-daemon
