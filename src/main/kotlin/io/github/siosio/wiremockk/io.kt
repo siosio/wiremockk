@@ -1,4 +1,4 @@
-package com.github.siosio.wiremockk
+package io.github.siosio.wiremockk
 
 import java.io.InputStream
 

@@ -1,4 +1,4 @@
-package com.github.siosio.wiremockk
+package io.github.siosio.wiremockk
 
 import net.javacrumbs.jsonunit.assertj.assertThatJson
 import org.assertj.core.api.Assertions.*

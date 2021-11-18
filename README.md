@@ -6,7 +6,7 @@ Kotlin DSL library for [WireMock](https://github.com/wiremock/wiremock)
 ## register example
 ### simple get register
 ```kotlin
-import com.github.siosio.wiremockk.register
+import io.github.siosio.wiremockk.register
 
 wireMock.register {
     request {
@@ -28,7 +28,7 @@ wireMock.register {
 
 ### simple post register
 ```kotlin
-import com.github.siosio.wiremockk.register
+import io.github.siosio.wiremockk.register
 
 wireMock.register {
     request {

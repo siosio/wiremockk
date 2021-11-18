@@ -1,4 +1,4 @@
-package com.github.siosio.wiremockk
+package io.github.siosio.wiremockk
 
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder
 import com.github.tomakehurst.wiremock.client.WireMock.*

@@ -1,4 +1,4 @@
-package com.github.siosio.wiremockk
+package io.github.siosio.wiremockk
 
 import com.github.tomakehurst.wiremock.client.WireMock.*
 import com.github.tomakehurst.wiremock.http.RequestMethod
