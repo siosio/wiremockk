@@ -127,6 +127,10 @@ class RequestCookieDsl {
 class RequestBodyDsl {
     private var bodyPatten: StringValuePattern = AnythingPattern()
 
+    fun pattern(pattern: StringValuePattern) {
+        this.bodyPatten = pattern
+    }
+
     fun json(json: String) {
         bodyPatten = equalToJson(json)
     }

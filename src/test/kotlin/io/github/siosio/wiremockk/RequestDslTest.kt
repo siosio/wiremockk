@@ -2,6 +2,7 @@ package io.github.siosio.wiremockk
 
 import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.http.RequestMethod
+import com.github.tomakehurst.wiremock.matching.ContainsPattern
 import com.github.tomakehurst.wiremock.matching.MultiValuePattern
 import com.github.tomakehurst.wiremock.matching.UrlPathPattern
 import com.github.tomakehurst.wiremock.matching.UrlPattern
@@ -184,6 +185,17 @@ internal class RequestDslTest {
 
     @Nested
     inner class Body {
+
+        @Test
+        internal fun pattern() {
+            sut.body {
+                pattern(WireMock.containing("a").and(WireMock.containing("b")))
+            }
+            val actual = sut.build()
+            assertThat(actual.bodyPatterns)
+                .containsAll(listOf(WireMock.containing("a").and(WireMock.containing("b"))))
+        }
+
         @Test
         internal fun registerJson() {
             // language=JSON
