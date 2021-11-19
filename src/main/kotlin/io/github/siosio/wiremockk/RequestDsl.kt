@@ -39,7 +39,7 @@ class RequestDsl {
         body.apply(init)
     }
 
-    internal fun build(): RequestPattern {
+    internal fun builder(): RequestPatternBuilder {
         return when (method) {
             RequestMethod.ANY -> anyRequestedFor(urlPattern)
             RequestMethod.GET -> getRequestedFor(urlPattern)
@@ -53,9 +53,12 @@ class RequestDsl {
             headers.build(this)
             cookies.build(this)
             body.build(this)
-        }.build()
+        }
     }
 
+    internal fun build(): RequestPattern {
+        return builder().build()
+    }
 }
 
 class QueryParamDsl {

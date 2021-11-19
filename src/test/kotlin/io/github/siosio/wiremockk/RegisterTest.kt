@@ -4,10 +4,8 @@ import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.http.RequestMethod
 import io.github.rybalkinsd.kohttp.dsl.httpGet
 import io.github.rybalkinsd.kohttp.dsl.httpPost
-import io.github.rybalkinsd.kohttp.ext.httpGet
 import io.github.rybalkinsd.kohttp.ext.url
 import net.javacrumbs.jsonunit.assertj.assertThatJson
-import org.assertj.core.api.Assertions.*
 import org.assertj.core.api.SoftAssertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

@@ -53,3 +53,19 @@ wireMock.register {
     }
 }
 ```
+
+## verify
+```kotlin
+import io.github.siosio.wiremockk.verify
+
+wireMock.verify {
+    url = "/test"
+    method = RequestMethod.POST
+    headers {
+        header("Content-Type", "application/json")
+    }
+    body {
+        json("""{"test":"value"}""")
+    }
+}
+```
