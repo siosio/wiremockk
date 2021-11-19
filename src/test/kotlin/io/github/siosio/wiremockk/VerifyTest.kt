@@ -3,6 +3,7 @@ package io.github.siosio.wiremockk
 import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.http.RequestMethod
 import io.github.rybalkinsd.kohttp.dsl.httpPost
+import io.github.rybalkinsd.kohttp.ext.httpGet
 import io.github.rybalkinsd.kohttp.ext.url
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
@@ -31,7 +32,29 @@ class VerifyTest {
     }
 
     @Test
-    internal fun verifyGet() {
+    internal fun verifyMultipleGet() {
+        wireMock.register {
+            response {
+                headers {
+                    contentType("text/plain")
+                }
+                body {
+                    string("message")
+                }
+            }
+        }
+
+        "http://localhost:${container.getMappedPort(8080)}/test".httpGet()
+        "http://localhost:${container.getMappedPort(8080)}/test".httpGet()
+
+        wireMock.verify(2) {
+            method = RequestMethod.GET
+            url = "/test"
+        }
+    }
+
+    @Test
+    internal fun verifyPost() {
         wireMock.register {
             request {
                 method = RequestMethod.POST

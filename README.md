@@ -5,7 +5,12 @@ Kotlin DSL library for [WireMock](https://github.com/wiremock/wiremock)
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.siosio/wiremockk?style=plastic)](https://search.maven.org/artifact/io.github.siosio/wiremockk)
 
 ## Maven
-```pom
+```xml
+<dependency>
+  <groupId>io.github.siosio</groupId>
+  <artifactId>wiremockk</artifactId>
+  <version>1.0.0</version>
+</dependency>
 ```
 
 ## register example
