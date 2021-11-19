@@ -143,6 +143,10 @@ class RequestBodyDsl {
         bodyPatten = equalToJson(readTextFileFromResourcePath(jsonResourcePath), ignoreArrayOrder, ignoreExtraElements)
     }
 
+    fun xml(xml: String) {
+        bodyPatten = equalToXml(xml)
+    }
+
     internal fun build(requestPatternBuilder: RequestPatternBuilder) {
         requestPatternBuilder.withRequestBody(bodyPatten)
     }

@@ -43,7 +43,7 @@ class VerifyTest {
                     contentType("text/plain")
                 }
                 body {
-                    string = "messate"
+                    string("messate")
                 }
             }
         }

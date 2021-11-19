@@ -227,5 +227,17 @@ internal class RequestDslTest {
             assertThat(actual.bodyPatterns)
                 .containsAll(listOf(WireMock.equalToJson("""{"test": "value"}""", true, false)))
         }
+
+        @Test
+        internal fun xml() {
+            sut.body {
+                // language=xml
+                xml("<u><n a='v'>value</n></u>")
+            }
+
+            val actual = sut.build()
+            assertThat(actual.bodyPatterns)
+                .containsAll(listOf(WireMock.equalToXml("<u><n a='v'>value</n></u>")))
+        }
     }
 }

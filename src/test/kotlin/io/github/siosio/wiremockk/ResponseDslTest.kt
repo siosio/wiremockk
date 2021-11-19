@@ -71,11 +71,11 @@ internal class ResponseDslTest {
         internal fun bodyFromText() {
             sut.body {
                 // language=JSON
-                string = """
+                string("""
                     {
                       "key": "value"
                     }
-                """.trimIndent()
+                """)
             }
 
             val actual = sut.build()
@@ -87,7 +87,7 @@ internal class ResponseDslTest {
         @Test
         internal fun bodyFromResourceFile() {
             sut.body {
-                path = "data/test.json"
+                path("data/test.json")
             }
 
             val actual = sut.build()

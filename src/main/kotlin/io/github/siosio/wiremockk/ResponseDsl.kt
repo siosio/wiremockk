@@ -46,8 +46,16 @@ class ResponseHeaderDsl {
 }
 
 class ResponseBodyDsl {
-    var path: String? = null
-    var string: String? = null
+    private var path: String? = null
+    private var string: String? = null
+
+    fun string(body: String) {
+        this.string = body
+    }
+
+    fun path(path: String) {
+        this.path = path
+    }
 
     internal fun build(builder: ResponseDefinitionBuilder) {
         when {

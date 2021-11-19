@@ -2,6 +2,11 @@
 Kotlin DSL library for [WireMock](https://github.com/wiremock/wiremock)
 
 ![build](https://github.com/siosio/wiremockk/actions/workflows/build.yml/badge.svg)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.siosio/wiremockk?style=plastic)](https://search.maven.org/artifact/io.github.siosio/wiremockk)
+
+## Maven
+```pom
+```
 
 ## register example
 ### simple get register
@@ -20,7 +25,7 @@ wireMock.register {
             header("x-test", "true")
         }
         body {
-            resourcePath = "data/test.json"
+            path("data/test.json")
         }
     }
 }
