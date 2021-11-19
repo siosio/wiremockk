@@ -46,16 +46,16 @@ class ResponseHeaderDsl {
 }
 
 class ResponseBodyDsl {
-    var resourcePath: String? = null
-    var bodyString: String? = null
+    var path: String? = null
+    var string: String? = null
 
     internal fun build(builder: ResponseDefinitionBuilder) {
         when {
-            bodyString != null -> {
-                builder.withBody(bodyString)
+            string != null -> {
+                builder.withBody(string)
             }
-            resourcePath != null -> {
-                builder.withBody(readBinaryFromResourcePath(checkNotNull(resourcePath)))
+            path != null -> {
+                builder.withBody(readBinaryFromResourcePath(checkNotNull(path)))
             }
         }
     }

@@ -47,7 +47,7 @@ internal class RegisterTest {
                     header("x-test", "true")
                 }
                 body {
-                    resourcePath = "data/test.json"
+                    path = "data/test.json"
                 }
             }
         }
