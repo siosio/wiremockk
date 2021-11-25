@@ -9,7 +9,7 @@ Kotlin DSL library for [WireMock](https://github.com/wiremock/wiremock)
 <dependency>
   <groupId>io.github.siosio</groupId>
   <artifactId>wiremockk</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
 </dependency>
 ```
 
